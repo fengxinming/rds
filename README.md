@@ -38,10 +38,9 @@ const RedisPool = require('../../index');
 
 const pool = new RedisPool({
   redis: {
-    port: 19000,
-    host: '10.57.22.211',
-    password: 'tongdun123',
-    keyPredix: 'talos_open_'
+    port: 6379,          // Redis port
+    host: '127.0.0.1',   // Redis host
+    password: 'auth'
   },
   pool: {
     // 默认最小连接数为2，最大连接数为10，根据实际需要设置
