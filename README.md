@@ -34,7 +34,7 @@ cnpm install --save corie-redis-client
 
 'use strict';
 
-const RedisPool = require('../../index');
+const RedisPool = require('corie-redis-client');
 
 const pool = new RedisPool({
   redis: {
