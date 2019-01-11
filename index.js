@@ -3,6 +3,9 @@
 const EventEmitter = require('events');
 const Redis = require('ioredis');
 const genericPool = require('generic-pool');
+const { getConsole } = require('corie-logger');
+
+const defaultLogger = getConsole('corie-redis-client');
 
 const defaultPool = {
   min: 2,
@@ -17,7 +20,7 @@ class RedisPool extends EventEmitter {
     const {
       pool,
       redis,
-      logger = console
+      logger = defaultLogger
     } = options;
 
     const factory = {
@@ -29,26 +32,39 @@ class RedisPool extends EventEmitter {
           reject(e);
         });
         ioredis.on('connect', () => {
-          logger.info('connected with ioredis');
+          logger.info('connected to redis with ioredis');
         });
         ioredis.on('ready', () => {
-          logger.info('ready for all connections');
+          logger.info('ready for all ioredis connections');
           resolve(ioredis);
         });
         ioredis.on('reconnecting', () => {
-          logger.info('reconnected with ioredis');
+          logger.info('reconnected to redis with ioredis');
         });
       }),
       destroy: ioredis => new Promise((resolve) => {
         ioredis.on('close', (e) => {
-          logger.error('closed a connection', e);
+          if (e) {
+            logger.error('close an ioredis connection error, cause: ', e);
+          } else {
+            logger.info('closed an ioredis connection');
+          }
           resolve(ioredis);
         });
         ioredis.on('end', (e) => {
-          logger.error('closed all connections', e);
+          if (e) {
+            logger.error('end an ioredis connections error, cause: ', e);
+          } else {
+            logger.info('ended an ioredis connections');
+          }
           resolve(ioredis);
         });
-        ioredis.disconnect();
+        try {
+          // Unhandled promise rejection sometimes
+          ioredis.disconnect();
+        } catch (e) {
+          logger.error('disconnect an ioredis connections error, cause: ', e);
+        }
       })
     };
 
@@ -70,7 +86,12 @@ class RedisPool extends EventEmitter {
   }
 
   end() {
-    return this.pool.drain().then(() => this.pool.clear());
+    return this.pool.drain()
+      .then(() => this.pool.clear())
+      .then((res) => {
+        this.logger.info('ended all ioredis connections');
+        return res;
+      });
   }
 
 }

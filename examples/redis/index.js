@@ -22,13 +22,17 @@ const pool = new RedisPool({
     client = await pool.getConnection();
     client.set('test', 'test redis');
     const result = await client.get('test');
-    console.log(result);
+    console.log('存储数据成功', result);
     client.del('test');
+    console.log('删除数据成功', result);
   } catch (e) {
     console.error(e);
   } finally {
     if (client) {
-      pool.release(client);
+      await pool.release(client);
+      console.log('已释放连接');
     }
   }
+  await pool.end();
+  console.log('关闭连接');
 })(pool);

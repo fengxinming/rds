@@ -13,6 +13,7 @@
   - [安装](#安装)
   - [使用](#使用)
   - [示例](#示例)
+  - [更新说明](#更新说明)
 
 ---
 
@@ -73,3 +74,9 @@ const pool = new RedisPool({
 ## 示例
 
   - [简单示例](https://github.com/fengxinming/corie-redis-client/tree/master/examples)
+
+##更新说明
+
+### 1.0.2
+
+  - 修改默认logger为corie-logger
