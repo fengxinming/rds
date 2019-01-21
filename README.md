@@ -2,22 +2,20 @@
 
 [![npm package](https://nodei.co/npm/corie-redis-client.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/corie-redis-client)
 
-> Note: [ioredis](https://github.com/coopernurse/node-pool) 连接池
-
-> 如果该插件对您的开发有所帮助，请五星好评哦！^_^ ^_^ ^_^
+> Note: [ioredis](https://github.com/coopernurse/node-pool) pool
 
 ---
 
-## 目录
+## Table of contents
 
-  - [安装](#安装)
-  - [使用](#使用)
-  - [示例](#示例)
-  - [更新说明](#更新说明)
+  - [Installation](#Installation)
+  - [Usage](#Usage)
+  - [Examples](#Examples)
+  - [Release History](#ReleaseHistory)
 
 ---
 
-## 安装
+## Installation
 
 ```bash
 npm install --save corie-redis-client
@@ -29,7 +27,7 @@ cnpm install --save corie-redis-client
 
 ---
 
-## 使用
+## Usage
 
 ```javascript
 
@@ -44,39 +42,66 @@ const pool = new RedisPool({
     password: 'auth'
   },
   pool: {
-    // 默认最小连接数为2，最大连接数为10，根据实际需要设置
     min: 2,
     max: 10
   }
 });
 
-(async function (pool) {
+async function todo() {
   let client;
   try {
+
+    // get a connection for redis
     client = await pool.getConnection();
+
+    // save something to redis
     client.set('test', 'test redis');
+
+    // get something from redis
     const result = await client.get('test');
-    console.log(result);
+    console.log('saved successfully', result);
+
+    // delete something from redis
     client.del('test');
+    console.log('deleted successfully', result);
+
   } catch (e) {
+
+    // caught an error
     console.error(e);
+
   } finally {
+
+    // finally release redis client to pool
     if (client) {
-      pool.release(client);
+      await pool.release(client);
+      console.log('released');
     }
+
   }
-})(pool);
+
+  // close connection with redis
+  await pool.end();
+  console.log('closed');
+}
+
+todo();
 
 ```
 
 ---
 
-## 示例
+## Examples
 
-  - [简单示例](https://github.com/fengxinming/corie-redis-client/tree/master/examples)
+  - [redis](https://github.com/fengxinming/corie-redis-client/tree/master/examples)
 
-##更新说明
+## ReleaseHistory
 
 ### 1.0.2
 
-  - 修改默认logger为corie-logger
+  - changed default logger to `corie-logger`
+
+### 1.0.3
+
+  - fixed unhandledRejection
+  - added events

@@ -16,23 +16,65 @@ const pool = new RedisPool({
   }
 });
 
-(async function (pool) {
+pool
+  .on('connect', () => {
+    console.log('connect');
+  })
+  .on('ready', () => {
+    console.log('ready');
+  })
+  .on('error', (e) => {
+    console.log('异常', e);
+  })
+  .on('close', () => {
+    console.log('close');
+  })
+  .on('reconnecting', () => {
+    console.log('reconnecting');
+  })
+  .on('end', () => {
+    console.log('end');
+  })
+  .on('disconnected', () => {
+    console.log('disconnected');
+  });
+
+async function todo() {
   let client;
   try {
+
+    // get a connection for redis
     client = await pool.getConnection();
+
+    // save something to redis
     client.set('test', 'test redis');
+
+    // get something from redis
     const result = await client.get('test');
-    console.log('存储数据成功', result);
+    console.log('saved successfully', result);
+
+    // delete something from redis
     client.del('test');
-    console.log('删除数据成功', result);
+    console.log('deleted successfully', result);
+
   } catch (e) {
+
+    // caught an error
     console.error(e);
+
   } finally {
+
+    // finally release redis client to pool
     if (client) {
       await pool.release(client);
-      console.log('已释放连接');
+      console.log('released');
     }
+
   }
+
+  // close connection with redis
   await pool.end();
-  console.log('关闭连接');
-})(pool);
+  console.log('closed all connections');
+}
+
+todo();
