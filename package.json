@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/fengxinming/corie-redis-client#readme",
   "dependencies": {
-    "corie-logger": "^3.2.0",
+    "corie-logger": "^3.3.0",
     "generic-pool": "^3.4.2",
     "ioredis": "^4.3.0"
   },
