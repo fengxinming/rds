@@ -97,11 +97,3 @@ todo();
 
 ## ReleaseHistory
 
-### 1.0.2
-
-  - changed default logger to `corie-logger`
-
-### 1.0.3
-
-  - fixed unhandledRejection
-  - added events

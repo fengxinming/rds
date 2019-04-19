@@ -3,9 +3,9 @@
 const EventEmitter = require('events');
 const Redis = require('ioredis');
 const genericPool = require('generic-pool');
-const { getConsole } = require('corie-logger');
+const Console = require('clrsole');
 
-const defaultLogger = getConsole('corie-redis-client');
+const defaultLogger = new Console('corie-redis-client');
 
 const defaultPool = {
   min: 2,
