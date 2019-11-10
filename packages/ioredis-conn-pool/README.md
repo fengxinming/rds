@@ -1,28 +1,30 @@
-# corie-redis-client
+# ioredis-conn-pool
 
-[![npm package](https://nodei.co/npm/corie-redis-client.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/corie-redis-client)
+[![npm package](https://nodei.co/npm/ioredis-conn-pool.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/ioredis-conn-pool)
 
-> Note: [ioredis](https://github.com/coopernurse/node-pool) pool
+> Note: A redis pool client
 
 ---
+
+[![NPM version](https://img.shields.io/npm/v/ioredis-conn-pool.svg?style=flat)](https://npmjs.org/package/ioredis-conn-pool) 
+[![NPM Downloads](https://img.shields.io/npm/dm/ioredis-conn-pool.svg?style=flat)](https://npmjs.org/package/ioredis-conn-pool)
 
 ## Table of contents
 
   - [Installation](#Installation)
   - [Usage](#Usage)
   - [Examples](#Examples)
-  - [Release History](#ReleaseHistory)
 
 ---
 
 ## Installation
 
 ```bash
-npm install --save corie-redis-client
+npm install --save ioredis-conn-pool
 
 # or
 
-cnpm install --save corie-redis-client
+cnpm install --save ioredis-conn-pool
 ```
 
 ---
@@ -33,7 +35,7 @@ cnpm install --save corie-redis-client
 
 'use strict';
 
-const RedisPool = require('corie-redis-client');
+const { RedisPool } = require('ioredis-conn-pool');
 
 const pool = new RedisPool({
   redis: {
@@ -81,8 +83,15 @@ async function todo() {
   }
 
   // close connection with redis
-  await pool.end();
-  console.log('closed');
+  process.on('SIGINT', () => {
+    server.close(() => {
+      pool.end()
+        .catch(e => e)
+        .then(() => {
+          setTimeout(() => process.exit(), 500)
+        });
+    });
+  });
 }
 
 todo();
@@ -93,7 +102,5 @@ todo();
 
 ## Examples
 
-  - [redis](https://github.com/fengxinming/corie-redis-client/tree/master/examples)
-
-## ReleaseHistory
+  - [redis](examples)
 

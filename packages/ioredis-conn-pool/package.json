@@ -1,5 +1,5 @@
 {
-  "name": "ioredis-pool-client",
+  "name": "ioredis-conn-pool",
   "version": "1.0.0",
   "description": "A redis pool client",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fengxinming/corie-redis-client.git"
+    "url": "git+https://github.com/fengxinming/rds.git"
   },
   "keywords": [
     "redis",
@@ -22,5 +22,14 @@
     "clrsole": "^2.0.0",
     "generic-pool": "^3.7.1",
     "ioredis": "^4.14.1"
+  },
+  "bugs": {
+    "url": "https://github.com/fengxinming/rds/issues"
+  },
+  "homepage": "https://github.com/fengxinming/rds#readme",
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "test": "test"
   }
 }

@@ -2,7 +2,7 @@
 
 const { RedisPool } = require('../index');
 
-describe('测试 ioredis-pool-client', () => {
+describe('测试 ioredis-conn-pool', () => {
   let pool;
   let client;
 

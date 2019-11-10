@@ -18,7 +18,8 @@ function test(arr, getDir) {
 }
 const [, , name, ...args] = process.argv;
 const nodePackages = [
-  'ioredis-pool-client'
+  'ioredis-conn-pool',
+  'corie-redis-client'
 ];
 
 test(nodePackages, packageName => join(__dirname, '..', 'packages', packageName));

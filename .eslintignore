@@ -4,3 +4,4 @@ logs
 coverage
 LICENSE
 README.md
+.npmignore

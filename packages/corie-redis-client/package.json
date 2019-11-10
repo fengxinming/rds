@@ -4,7 +4,7 @@
   "description": "A redis pool client",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --detectOpenHandles --config jest.config.js"
   },
   "keywords": [
     "redis",
@@ -13,5 +13,16 @@
     "redis-pool"
   ],
   "author": "Jesse Feng",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fengxinming/rds.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fengxinming/rds/issues"
+  },
+  "homepage": "https://github.com/fengxinming/rds#readme",
+  "dependencies": {
+    "ioredis-conn-pool": "^1.0.0"
+  }
 }
