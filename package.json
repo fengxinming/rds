@@ -1,22 +1,12 @@
 {
-  "name": "corie-redis-client",
-  "version": "1.0.5",
   "description": "A redis client pool",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./scripts/test.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fengxinming/corie-redis-client.git"
   },
-  "keywords": [
-    "corie",
-    "redis",
-    "ioredis",
-    "redis-client",
-    "corie-redis-client"
-  ],
   "author": "Jesse Feng",
   "license": "MIT",
   "bugs": {
@@ -24,16 +14,20 @@
   },
   "homepage": "https://github.com/fengxinming/corie-redis-client#readme",
   "dependencies": {
-    "clrsole": "^1.0.0-beta.1",
-    "generic-pool": "^3.4.2",
-    "ioredis": "^4.3.0"
+    "clrsole": "^2.0.0",
+    "generic-pool": "^3.7.1",
+    "ioredis": "^4.14.1"
   },
   "devDependencies": {
-    "eslint": "^5.12.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.6.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^24.9.0"
   }
 }

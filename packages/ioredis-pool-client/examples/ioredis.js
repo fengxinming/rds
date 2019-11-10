@@ -1,13 +1,19 @@
 'use strict';
 
-const RedisPool = require('../../index');
+const Logger = require('clrsole');
+const { RedisPool } = require('../index');
+
+const logger = new Logger('example');
 
 const pool = new RedisPool({
   redis: {
-    port: 19000,
-    host: '10.57.22.211',
-    password: 'tongdun123',
-    keyPredix: 'talos_open_'
+    sentinels: [{
+      host: '10.59.44.155',
+      port: 26379
+    }],
+    name: 'test',
+    password: 'B213547b69b13224',
+    keyPrefix: 'talos_open_'
   },
   pool: {
     // 默认最小连接数为2，最大连接数为10，根据实际需要设置
@@ -18,25 +24,25 @@ const pool = new RedisPool({
 
 pool
   .on('connect', () => {
-    console.log('connect');
+    logger.info('connecting');
   })
   .on('ready', () => {
-    console.log('ready');
+    logger.info('connected');
   })
   .on('error', (e) => {
-    console.log('异常', e);
+    logger.error('error', e);
   })
   .on('close', () => {
-    console.log('close');
-  })
-  .on('reconnecting', () => {
-    console.log('reconnecting');
-  })
-  .on('end', () => {
-    console.log('end');
+    logger.info('close');
   })
   .on('disconnected', () => {
-    console.log('disconnected');
+    logger.info('disconnected');
+  })
+  .on('reconnecting', () => {
+    logger.info('reconnecting');
+  })
+  .on('end', () => {
+    logger.info('closed all');
   });
 
 async function todo() {
@@ -51,11 +57,11 @@ async function todo() {
 
     // get something from redis
     const result = await client.get('test');
-    console.log('saved successfully', result);
+    logger.info('saved successfully', result);
 
     // delete something from redis
     client.del('test');
-    console.log('deleted successfully', result);
+    logger.info('deleted successfully', result);
 
   } catch (e) {
 
@@ -67,14 +73,14 @@ async function todo() {
     // finally release redis client to pool
     if (client) {
       await pool.release(client);
-      console.log('released');
+      logger.info('released');
     }
 
   }
 
   // close connection with redis
   await pool.end();
-  console.log('closed all connections');
+  logger.info('closed all connections');
 }
 
 todo();

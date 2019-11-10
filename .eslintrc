@@ -2,6 +2,16 @@
   "extends": [
     "standard"
   ],
+  "globals": {
+    "jest": true,
+    "describe": true,
+    "it": true,
+    "expect": true,
+    "beforeAll": true,
+    "beforeEach": true,
+    "afterAll": true,
+    "afterEach": true
+  },
   "rules": {
     "arrow-parens": [
       2,
@@ -49,7 +59,7 @@
       2,
       "property"
     ],
-    "prefer-arrow-callback": 2,
+    "prefer-arrow-callback": 0,
     "operator-linebreak": [
       2,
       "after",

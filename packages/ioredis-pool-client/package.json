@@ -1,0 +1,26 @@
+{
+  "name": "ioredis-pool-client",
+  "version": "1.0.0",
+  "description": "A redis pool client",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --detectOpenHandles --config jest.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fengxinming/corie-redis-client.git"
+  },
+  "keywords": [
+    "redis",
+    "ioredis",
+    "redis-client",
+    "redis-pool"
+  ],
+  "author": "Jesse Feng",
+  "license": "MIT",
+  "dependencies": {
+    "clrsole": "^2.0.0",
+    "generic-pool": "^3.7.1",
+    "ioredis": "^4.14.1"
+  }
+}
