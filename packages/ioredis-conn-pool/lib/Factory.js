@@ -11,14 +11,20 @@ class Factory {
   create() {
     const { redis: redisOptions, context, logger } = this;
     return new Promise(function createRedis(resolve, reject) {
-      const ioredis = new Redis(redisOptions);
+      let ioredis = new Redis(redisOptions);
+      let isConnectedOnStart = false;
       ioredis
         .on('error', function (e) {
+          if (!isConnectedOnStart) {
+            ioredis.quit();
+            ioredis = null;
+          }
           logger.error(e);
           context.emit('error', e, ioredis);
           reject(e);
         })
         .on('connect', function () {
+          isConnectedOnStart = true;
           context.emit('connect', ioredis);
         })
         .on('ready', function () {
