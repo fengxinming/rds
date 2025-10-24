@@ -20,6 +20,12 @@ function createPool(
           reject(e);
         };
 
+        // When lazyConnect is enabled, ioredis will not emit ready events until after the ioredis gets a command
+        if (redisOptions?.lazyConnect) {
+          context.logger.info( 'Lazy connection enabled, skipping ready check.');
+          resolve(ioredis);
+        }
+
         ioredis
           .once('error', onError)
           .once('ready', () => {

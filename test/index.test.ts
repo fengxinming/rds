@@ -1,9 +1,25 @@
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest';
 
 import { RedisPool } from '../src/index';
 
-
-describe('测试 ioredis-conn-pool', () => {
+describe.each([
+  {
+    lazyConnect: false,
+    name: 'lazyConnect: false',
+  },
+  {
+    lazyConnect: true,
+    name: 'lazyConnect: true',
+  },
+])('测试 ioredis-conn-pool $name', ({ lazyConnect }) => {
   let pool;
   let client;
 
@@ -18,13 +34,14 @@ describe('测试 ioredis-conn-pool', () => {
         port: 6379, // Redis port
         name: 'test',
         password: 'B213547b69b13224',
-        keyPrefix: 'test_'
+        keyPrefix: 'test_',
+        lazyConnect,
       },
       pool: {
         // 默认最小连接数为2，最大连接数为10，根据实际需要设置
         min: 2,
-        max: 10
-      }
+        max: 10,
+      },
     });
   });
 
@@ -44,7 +61,9 @@ describe('测试 ioredis-conn-pool', () => {
 
   it('测试异常情况', async () => {
     await pool.disconnect(client);
-    await expect(pool.release(client)).rejects.toThrow('Resource not currently part of this pool');
+    await expect(pool.release(client)).rejects.toThrow(
+      'Resource not currently part of this pool'
+    );
     client = null;
   });
 
